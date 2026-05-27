@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1>🧠 ReelMind</h1>
+  <p><strong>The Ultimate Open-Source OpusClip Clone</strong></p>
+  <p>Turn boring 1-hour podcasts into highly viral TikToks & YouTube Shorts using AI-powered video analysis and Automated B-Roll Compositing.</p>
+</div>
 
-## Getting Started
+---
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 🧠 **AI Viral Brain**: Powered by Gemini/GPT-4 via **OpenRouter**. ReelMind reads the raw `.json3` subtitles of any YouTube video, mathematically analyzing the transcript to extract the most engaging 60-second hooks (strictly enforcing an 80+ virality score).
+- ✂️ **Precision Local Clipper**: Zero expensive cloud rendering fees. ReelMind uses a robust local `FFmpeg` pipeline to slice and format your videos into a perfect `9:16` aspect ratio instantly.
+- 🕵️ **Reused Content Bypass (Auto B-Roll)**: Beat the algorithm. ReelMind's auto-split-screen engine seamlessly overlays satisfying background footage (e.g., *Subway Surfers, Minecraft Parkour*) underneath your podcast, creating a completely new pixel hash to bypass YouTube and TikTok's demonetization filters.
+- 💎 **Ultra-Minimalist SaaS UI**: A premium, high-contrast dark/light mode interface inspired by modern tools like Vercel and Linear. No cheap neon glows—just crisp 1px borders and mathematically perfect typography.
+- 🔋 **API Credit Protection**: Built-in 2-Tier Mock Quota Warning system. Protects your backend from crashing into `402 Payment Required` or `429 Too Many Requests` when your AI tokens run low.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+Before running ReelMind, ensure you have the following installed on your local machine:
+- **Node.js** (v18 or higher)
+- **FFmpeg** (Must be added to your system PATH)
+- **yt-dlp** (Must be added to your system PATH)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/obzennn/ReelMind.git
+   cd ReelMind
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Configure the AI Brain**
+   Rename the `.env.example` file to `.env.local` and insert your OpenRouter API Key:
+   ```env
+   OPENROUTER_API_KEY="sk-or-v1-YOUR-KEY-HERE"
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the app in action.
 
-## Deploy on Vercel
+## 🛠️ Architecture
+- **Frontend**: Next.js 14 (App Router), Tailwind CSS, Lucide Icons, Next-Themes.
+- **Backend API**: Next.js Route Handlers.
+- **AI Integrations**: Vercel AI SDK + OpenRouter.
+- **Video Engine**: `yt-dlp-exec`, `execa`, and `FFmpeg` (`-filter_complex` for advanced vertical stacking).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Disclaimer: ReelMind is an independent open-source tool. Please respect YouTube's Terms of Service and original creators' copyrights when utilizing the clipping engine.*
