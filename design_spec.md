@@ -66,7 +66,7 @@ The application layout will be flat and structured, avoiding floating "glass" ca
 *   **Progress Bar:** 1px or 2px thin line. Track is `zinc-800`, fill is solid White (`#ffffff`) or a muted blue. No glowing effects.
 *   **Video Preview Loading:** A flat, dark gray (`zinc-900`) skeleton with a very subtle shimmer effect. No glass layers.
 
-### 4.5. Auto-Subtitle Toggle Switch
+### 4.5. Viral Animated Captions (Whisper AI) Toggle Switch
 *   **Style:** Small, crisp, standard toggle switch.
 *   **Track (Inactive):** Solid `zinc-800`.
 *   **Track (Active):** Solid White (`#ffffff`) or muted blue.

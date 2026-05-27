@@ -231,7 +231,7 @@ export default function Home() {
 
               <div className="flex-1 flex items-center justify-between p-5 md:p-6 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 w-full">
                 <div>
-                  <p className="text-zinc-900 dark:text-white font-medium">Include Auto-Subtitles</p>
+                  <p className="text-zinc-900 dark:text-white font-medium">Enable Viral Animated Captions (Whisper AI)</p>
                   <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">Embed English/Indonesian subtitles</p>
                 </div>
                 <button
