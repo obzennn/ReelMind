@@ -1,0 +1,23 @@
+{
+  "typeofE": "object",
+  "isError": true,
+  "keys": [
+    "shortMessage",
+    "command",
+    "escapedCommand",
+    "exitCode",
+    "signal",
+    "signalDescription",
+    "stdout",
+    "stderr",
+    "failed",
+    "timedOut",
+    "isCanceled",
+    "killed"
+  ],
+  "message": "Command failed with exit code 1: yt-dlp https://www.youtube.com/watch?v=invalid --format bestvideo+bestaudio/best\n'yt-dlp' is not recognized as an internal or external command,\r\noperable program or batch file.",
+  "stderr": "'yt-dlp' is not recognized as an internal or external command,\r\noperable program or batch file.",
+  "stdout": "",
+  "shortMessage": "Command failed with exit code 1: yt-dlp https://www.youtube.com/watch?v=invalid --format bestvideo+bestaudio/best",
+  "name": "Error"
+}
