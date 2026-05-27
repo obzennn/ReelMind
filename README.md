@@ -9,6 +9,7 @@
 ## ✨ Features
 
 - 🧠 **AI Viral Brain**: Powered by Gemini/GPT-4 via **OpenRouter**. ReelMind reads the raw `.json3` subtitles of any YouTube video, mathematically analyzing the transcript to extract the most engaging 60-second hooks (strictly enforcing an 80+ virality score).
+- 🎙️ **Viral Animated Captions (Whisper AI)**: Completely replaces boring static subtitles. Extracts the clip audio, runs it through OpenAI Whisper with word-level granularities, and generates advanced `.ass` overlays to burn TikTok-style word-by-word yellow highlighted captions into the final render.
 - ✂️ **Precision Local Clipper**: Zero expensive cloud rendering fees. ReelMind uses a robust local `FFmpeg` pipeline to slice and format your videos into a perfect `9:16` aspect ratio instantly.
 - 🕵️ **Reused Content Bypass (Auto B-Roll)**: Beat the algorithm. ReelMind's auto-split-screen engine seamlessly overlays satisfying background footage (e.g., *Subway Surfers, Minecraft Parkour*) underneath your podcast, creating a completely new pixel hash to bypass YouTube and TikTok's demonetization filters.
 - 💎 **Ultra-Minimalist SaaS UI**: A premium, high-contrast dark/light mode interface inspired by modern tools like Vercel and Linear. No cheap neon glows—just crisp 1px borders and mathematically perfect typography.
@@ -35,10 +36,14 @@ Before running ReelMind, ensure you have the following installed on your local m
    npm install
    ```
 
-3. **Configure the AI Brain**
-   Rename the `.env.example` file to `.env.local` and insert your OpenRouter API Key:
+3. **Configure the AI Brain & Ears**
+   Rename the `.env.example` file to `.env.local` and insert your API Keys:
    ```env
+   # Required: For Video Analysis (Gemini/GPT-4o)
    OPENROUTER_API_KEY="sk-or-v1-YOUR-KEY-HERE"
+   
+   # Required: For Word-by-Word Animated Captions
+   OPENAI_API_KEY="sk-proj-YOUR-KEY-HERE"
    ```
 
 4. **Run the development server**
