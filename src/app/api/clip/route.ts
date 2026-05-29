@@ -6,8 +6,27 @@ import { create as createYtDlp } from "yt-dlp-exec";
 import { execa } from "execa";
 import OpenAI from "openai";
 
-
 const isWin = os.platform() === "win32";
+
+function cleanupOldTempFiles(dir: string, maxAgeHours: number = 1) {
+  try {
+    const files = fs.readdirSync(dir);
+    const now = Date.now();
+    for (const file of files) {
+      if (file.match(/^(clip|main|broll|raw|audio|subs|final)_.*\\.(mp4|mp3|ass)$/)) {
+        const filePath = path.join(dir, file);
+        try {
+          const stats = fs.statSync(filePath);
+          if (now - stats.mtimeMs > maxAgeHours * 60 * 60 * 1000) {
+            fs.unlinkSync(filePath);
+          }
+        } catch (e) {}
+      }
+    }
+  } catch (err) {
+    console.error("Cleanup error:", err);
+  }
+}
 
 // Turbopack path virtualization fix for Next.js
 const ytdlp = createYtDlp(
@@ -95,6 +114,9 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
 
 export async function POST(req: NextRequest) {
+  // Run garbage collector to free up server space
+  cleanupOldTempFiles(os.tmpdir(), 1);
+
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || "dummy-key-for-build",
   });
@@ -212,16 +234,33 @@ export async function POST(req: NextRequest) {
 
       filterComplex += "[v]";
 
+      const bgmPath = path.join(process.cwd(), "public", "bgm.mp3");
+      const hasBgm = fs.existsSync(bgmPath);
+
       try {
-        await execa(ffmpegPath, [
+        const args = [
           "-y",
           "-i", mainVideoPath,
-          "-i", brollVideoPath,
-          "-filter_complex", filterComplex,
-          "-map", "[v]",
-          "-map", "0:a?",
-          finalOutputPath
-        ]);
+          "-i", brollVideoPath
+        ];
+
+        if (hasBgm) {
+          args.push("-stream_loop", "-1", "-i", bgmPath);
+          // Audio volume mix: 1.0 for main video, 0.1 for BGM
+          filterComplex += `;[0:a]volume=1.0[a1];[2:a]volume=0.1[a2];[a1][a2]amix=inputs=2:duration=first:dropout_transition=2[aout]`;
+        }
+
+        args.push("-filter_complex", filterComplex);
+        args.push("-map", "[v]");
+        
+        if (hasBgm) {
+          args.push("-map", "[aout]");
+        } else {
+          args.push("-map", "0:a?");
+        }
+        
+        args.push(finalOutputPath);
+        await execa(ffmpegPath, args);
       } catch (e: any) {
         console.error("ffmpeg merge error:", e);
         return NextResponse.json({ error: "Failed to merge B-Roll." }, { status: 500 });
