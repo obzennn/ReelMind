@@ -18,7 +18,6 @@ export default function Home() {
   const [warning, setWarning] = useState("");
   const [includeSubtitles, setIncludeSubtitles] = useState(false);
   const [aspectRatio, setAspectRatio] = useState("original");
-  const [credits, setCredits] = useState(600);
   const [brollEnabled, setBrollEnabled] = useState(false);
   const [brollUrl, setBrollUrl] = useState("https://www.youtube.com/watch?v=n_Dv4JMiwK8");
   
@@ -50,7 +49,6 @@ export default function Home() {
 
       const data = await response.json();
       setClips(data.clips || []);
-      setCredits((prev) => Math.max(0, prev - 300));
       setStep(2);
     } catch (err: any) {
       setError(err.message);
@@ -126,9 +124,6 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center px-4 md:px-8 py-8 relative overflow-y-auto bg-zinc-50 dark:bg-black transition-colors duration-300">
       <div className="absolute top-4 right-4 md:top-8 md:right-8 z-50 flex items-center gap-4">
-        <div className={`text-sm font-medium border px-3 py-1 rounded-full ${credits === 0 ? 'border-red-500 text-red-500 bg-red-50 dark:bg-red-950/50' : credits <= 300 ? 'border-amber-500 text-amber-500 bg-amber-50 dark:bg-amber-950/50' : 'border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-950'}`}>
-          Credits: {credits}
-        </div>
         <ThemeToggle />
       </div>
       <div className={`mt-10 mb-20 w-full ${step === 1 ? 'max-w-2xl' : 'max-w-6xl'} relative z-10 transition-all duration-700`}>
@@ -142,16 +137,6 @@ export default function Home() {
             </p>
 
             <div className="space-y-6">
-              {credits <= 300 && credits > 0 && (
-                <div className="flex flex-col gap-3 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-900 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <p className="text-sm font-medium text-amber-600 dark:text-amber-400">Low API Credits. You have enough for 1 more video.</p>
-                </div>
-              )}
-              {credits === 0 && (
-                <div className="flex flex-col gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <p className="text-sm font-medium text-red-600 dark:text-red-400">Out of API Credits. Please top up your OpenAI/Gemini account.</p>
-                </div>
-              )}
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 ml-1 mb-2 block">YouTube URL</label>
@@ -160,8 +145,7 @@ export default function Home() {
                   placeholder="https://www.youtube.com/watch?v=..."
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
-                  disabled={credits === 0}
-                  className={`w-full p-4 md:p-5 rounded-xl text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 font-mono transition-all bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 outline-none focus:border-zinc-400 dark:focus:border-zinc-500 ${credits === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`w-full p-4 md:p-5 rounded-xl text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 font-mono transition-all bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 outline-none focus:border-zinc-400 dark:focus:border-zinc-500`}
                 />
               </div>
 
@@ -173,7 +157,7 @@ export default function Home() {
 
               <button
                 onClick={handleAnalyze}
-                disabled={analyzing || credits === 0}
+                disabled={analyzing}
                 className="w-full py-4 md:py-5 rounded-xl text-white dark:text-black bg-zinc-900 dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 font-bold tracking-wide mt-6 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 transition-all shadow-sm"
               >
                 {analyzing ? (
@@ -399,7 +383,7 @@ export default function Home() {
                   </button>
 
                   <button
-                    onClick={() => alert("Simulating Auto-Publish to TikTok API... (Requires NextAuth User Session)")}
+                    onClick={() => alert("Launching TikTok Playwright Stealth Bot...")}
                     className="w-full py-2.5 mt-3 md:py-3 rounded-xl text-white bg-gradient-to-r from-pink-500 to-black dark:to-zinc-900 hover:opacity-90 font-bold tracking-wide transition-colors relative overflow-hidden shadow-sm text-sm flex justify-center items-center gap-2"
                   >
                     <svg className="w-4 h-4" viewBox="0 0 448 512" fill="currentColor">
