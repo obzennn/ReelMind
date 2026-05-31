@@ -1,26 +1,24 @@
-<div align="center">
-  <h1>🧠 ReelMind V3</h1>
-  <p><strong>The Personal Faceless Channel Automation Bot</strong></p>
-  <p>Turn boring 1-hour podcasts into highly viral TikToks & YouTube Shorts using AI-powered video analysis, Automated B-Roll Compositing, and Stealth Auto-Publishing.</p>
-</div>
+# ReelMind V3
+
+ReelMind is a video processing automation tool that extracts clips from YouTube videos and formats them for short-form video platforms like TikTok, YouTube Shorts, and Instagram Reels. It utilizes AI for transcript analysis and local FFmpeg processes for video rendering and captioning.
 
 ---
 
-## ✨ Features
+## Features
 
-- 🧠 **AI Viral Brain**: Powered by Gemini/GPT-4 via **OpenRouter**. ReelMind reads the raw `.json3` subtitles of any YouTube video, mathematically analyzing the transcript to extract the most engaging 60-second hooks (strictly enforcing an 80+ virality score).
-- 🎙️ **Viral Animated Captions (Whisper API)**: Completely replaces boring static subtitles. Extracts the clip audio, runs it through OpenAI Whisper with word-level granularities, and generates advanced `.ass` overlays to burn TikTok-style word-by-word yellow highlighted captions into the final render.
-- ✂️ **Precision Local Clipper & Trimmer**: Zero expensive cloud rendering fees. ReelMind uses a robust local `FFmpeg` pipeline to slice and format your videos into a perfect `9:16` aspect ratio instantly. Includes an **Interactive Web Trimmer** to let you manually tweak the AI's suggested start/end times before rendering.
-- 🎵 **Auto-BGM (Background Music)**: Automatically mixes background music (e.g., Lo-Fi, Phonk) into your clips. Just drop a `bgm.mp3` file into the `public/` directory and ReelMind will blend it underneath the podcast audio.
-- 🕵️ **Reused Content Bypass (Auto B-Roll)**: Beat the algorithm. ReelMind's auto-split-screen engine seamlessly overlays satisfying background footage (e.g., *Subway Surfers, Minecraft Parkour*) underneath your podcast, creating a completely new pixel hash to bypass YouTube and TikTok's demonetization filters.
-- 🚀 **Stealth Auto-Publishers**: Fully automated social media distribution.
-  - **YouTube Shorts API**: Uploads directly to YouTube using the official `googleapis` OAuth integration.
-  - **TikTok Stealth Bot**: Bypasses TikTok's strict API limitations using a headless Microsoft **Playwright** script (`scripts/tiktok-bot.js`) that logs in via cookies and uploads your video like a real human.
+- **Video Analysis**: Uses Gemini via OpenRouter to analyze YouTube `.json3` subtitle transcripts. The AI identifies 15-60 second segments based on a predefined engagement scoring prompt.
+- **Automated Captions**: Extracts audio and processes it using the OpenAI Whisper API to generate word-level timestamps. These timestamps are converted into `.ass` subtitle files and burned into the video.
+- **Local Rendering Pipeline**: Utilizes local `FFmpeg` to process videos without relying on cloud rendering services. Supports cropping to a `9:16` aspect ratio and provides a web interface for manual adjustment of start and end times.
+- **Background Audio Mixing**: Supports mixing an optional background audio track (`public/bgm.mp3`) underneath the primary video audio.
+- **Split-Screen Compositing**: Includes an option to overlay the primary video on top of secondary background footage (e.g., gameplay videos) to create a vertically stacked layout.
+- **Publishing Integrations**: 
+  - **YouTube Shorts**: Integrates with the official `googleapis` OAuth for direct uploading.
+  - **TikTok**: Includes a headless Microsoft Playwright script (`scripts/tiktok-bot.js`) that uses session cookies to automate the upload process.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-Before running ReelMind, ensure you have the following installed on your local machine:
+Ensure you have the following installed on your local machine before running ReelMind:
 - **Node.js** (v18 or higher)
 - **FFmpeg** (Must be added to your system PATH)
 - **yt-dlp** (Must be added to your system PATH)
@@ -41,12 +39,12 @@ Before running ReelMind, ensure you have the following installed on your local m
    ```
 
 3. **Configure the Environment**
-   Create a `.env` file and insert your API Keys:
+   Create a `.env.local` file and insert your required API keys:
    ```env
-   # Required: For Video Analysis (Gemini/GPT-4o)
+   # Required: For Video Transcript Analysis (OpenRouter)
    OPENROUTER_API_KEY="sk-or-v1-YOUR-KEY-HERE"
    
-   # Required: For Word-by-Word Animated Captions
+   # Required: For Whisper API Audio Transcription
    OPENAI_API_KEY="sk-proj-YOUR-KEY-HERE"
 
    # Optional: For YouTube Shorts Auto-Publish
@@ -56,25 +54,24 @@ Before running ReelMind, ensure you have the following installed on your local m
    YOUTUBE_REFRESH_TOKEN="your-refresh-token"
    ```
 
-4. **TikTok Bot First-Time Setup**
-   To use the TikTok Auto-Publisher, you must generate a session cookie first:
-   - Temporarily edit `scripts/tiktok-bot.js` and set `headless: false`.
+4. **TikTok Automation Setup**
+   If you plan to use the TikTok publisher script, you need to generate a session cookie:
+   - Edit `scripts/tiktok-bot.js` and temporarily set `headless: false`.
    - Run the script manually: `node scripts/tiktok-bot.js ./test.mp4 "Title" "Desc" "#shorts"`
-   - Scan the TikTok login QR code in the browser window that pops up.
-   - Close the browser. The session is now saved in `.tiktok_session`. You can set `headless: true` again.
+   - Scan the TikTok login QR code in the browser window.
+   - Close the browser. The session cookie is saved in `.tiktok_session`. You can restore `headless: true`.
 
 5. **Run the development server**
    ```bash
    npm run dev
    ```
-   Open [http://localhost:3000](http://localhost:3000) with your browser to see the app in action.
+   Open [http://localhost:3000](http://localhost:3000) with your browser to access the interface.
 
-## 🛠️ Architecture
-- **Frontend**: Next.js 14 (App Router), Tailwind CSS. Stripped of all SaaS bloat for maximum personal performance.
+## Architecture
+- **Frontend**: Next.js 14 (App Router) with Tailwind CSS.
 - **Backend API**: Next.js Route Handlers.
-- **AI Integrations**: Vercel AI SDK + OpenRouter.
-- **Video Engine**: `yt-dlp-exec`, `execa`, and `FFmpeg` (`-filter_complex` for advanced vertical stacking and `amix` for audio).
-- **Automation**: Playwright (TikTok) & Google APIs (YouTube).
+- **Video Engine**: Uses `yt-dlp-exec`, `execa`, and `FFmpeg` (`-filter_complex` for stacking and `amix` for audio routing).
+- **Automation**: Playwright for browser automation and Google APIs for OAuth integrations.
 
 ---
-*Disclaimer: ReelMind is an independent open-source tool. Please respect YouTube's Terms of Service, TikTok's automation policies, and original creators' copyrights when utilizing the clipping engine.*
+*Disclaimer: ReelMind is an independent open-source project. Users are responsible for complying with the Terms of Service of YouTube, TikTok, and other platforms, as well as respecting copyright laws when downloading and processing videos.*
